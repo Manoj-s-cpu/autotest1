@@ -184,7 +184,7 @@ wb_result.save(result_file)
 print(f"Results saved in {result_file}")
 
 driver.quit()
-# navigation  automation
+# navigation  automation---------------------------------------------------------------------------------
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.service import Service
@@ -226,4 +226,138 @@ print("Page refreshed")
 time.sleep(2)
 
 # Step 5: Close browser
+driver.quit()
+
+# checkbox
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from webdriver_manager.chrome import ChromeDriverManager
+import time
+
+# Setup Selenium
+service = Service(ChromeDriverManager().install())
+driver = webdriver.Chrome(service=service)
+driver.maximize_window()
+
+driver.get("https://www.tutorialspoint.com/selenium/practice/selenium_automation_practice.php")
+
+# Wait until the checkbox is clickable
+wait = WebDriverWait(driver, 10)
+checkbox = wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="hobbies"]')))
+checkbox.click()
+print("Checkbox clicked using EC wait!")
+
+time.sleep(2)
+driver.quit()
+
+#alert popup--------------------------------------------------------------------------------------------------
+import time
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+
+# -------------------------
+# Inicializar driver
+# -------------------------
+driver = webdriver.Chrome()
+driver.maximize_window()
+
+url = "https://demo.automationtesting.in/Alerts.html"
+driver.get(url)
+time.sleep(2)
+
+# -------------------------
+# Crear WebDriverWait
+# -------------------------
+wait = WebDriverWait(driver, 10)
+
+# -------------------------
+# Paso 1: Simple Alert
+# -------------------------
+simple_alert = wait.until(
+    EC.element_to_be_clickable((By.XPATH, '//*[@id="OKTab"]/button'))
+)
+simple_alert.click()
+time.sleep(1)
+
+alertas = driver.switch_to.alert
+print("Paso 1: OK alert")
+alertas.accept()
+time.sleep(2)
+
+# -------------------------
+# Paso 2: Confirmation Alert
+# -------------------------
+# Click en la pestaña "Alert with OK & Cancel"
+driver.find_element(By.XPATH, '/html/body/div[1]/div/div/div/div[1]/ul/li[2]/a').click()
+
+# Esperar a que el botón sea clickeable
+confirm_alert = wait.until(
+    EC.element_to_be_clickable((By.XPATH, '//*[@id="CancelTab"]/button'))
+)
+confirm_alert.click()
+time.sleep(1)
+
+# Aceptar confirm alert
+confirm_alerts = driver.switch_to.alert
+print("Paso 2: Confirmation alert - Accept")
+confirm_alerts.accept()
+time.sleep(2)
+
+# Volver a hacer clic para probar dismiss
+confirm_alert.click()
+confirm_alerts = driver.switch_to.alert
+print("Paso 2: Confirmation alert - Dismiss")
+confirm_alerts.dismiss()
+time.sleep(2)
+
+driver.quit()
+
+
+# mouse hover------------------------------------------------------------------
+import time
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.common.action_chains import ActionChains
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+
+driver = webdriver.Chrome()
+driver.maximize_window()
+
+url = "https://practice.expandtesting.com/hovers"
+driver.get(url)
+
+wait = WebDriverWait(driver, 10)
+actions = ActionChains(driver)
+
+hover_element1 = wait.until(EC.visibility_of_element_located(
+    (By.XPATH, '//*[@id="core"]/div/div/div[1]/img')
+))
+driver.execute_script("arguments[0].scrollIntoView(true);", hover_element1)
+actions.move_to_element(hover_element1).perform()
+print("Paso 1: OK")
+time.sleep(2)
+
+hover_element2 = wait.until(EC.visibility_of_element_located(
+    (By.XPATH, '//*[@id="core"]/div/div/div[2]/img')
+))
+driver.execute_script("arguments[0].scrollIntoView(true);", hover_element2)
+actions.move_to_element(hover_element2).perform()
+print("Paso 2: OK")
+time.sleep(2)
+
+hover_element3 = wait.until(EC.visibility_of_element_located(
+    (By.XPATH, '//*[@id="core"]/div/div/div[3]/img')
+))
+driver.execute_script("arguments[0].scrollIntoView(true);", hover_element3)
+actions.move_to_element(hover_element3).perform()
+print("Paso 3: OK")
+time.sleep(2)
+
+
 driver.quit()
